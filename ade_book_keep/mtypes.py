@@ -1,12 +1,12 @@
 from typing import TypedDict
-from enum import Enum
+# from enum import Enum
 
-class PaymentStatus(Enum):
-    PAID = "Paid"
-    UNPAID = "Unpaid"
+# class PaymentStatus(Enum):
+#     PAID = "Paid"
+#     UNPAID = "Unpaid"
 
 class MonthlyPayment(TypedDict):
-    status: PaymentStatus
+    status: str
     amount_paid: int
 
 class Member(TypedDict):
