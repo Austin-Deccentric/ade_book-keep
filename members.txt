@@ -1,0 +1,59 @@
+[
+    {
+        "id": "Iyk12C",
+        "first_name": "Gerald",
+        "last_name": "Iyke",
+        "house_num": "12C",
+        "date_of_reg": "2026-08-24",
+        "payment_status": {
+            "January": {
+                "status": "",
+                "amount_paid": 0
+            },
+            "February": {
+                "status": "",
+                "amount_paid": 0
+            },
+            "March": {
+                "status": "",
+                "amount_paid": 0
+            },
+            "April": {
+                "status": "",
+                "amount_paid": 0
+            },
+            "May": {
+                "status": "",
+                "amount_paid": 0
+            },
+            "June": {
+                "status": "",
+                "amount_paid": 0
+            },
+            "July": {
+                "status": "",
+                "amount_paid": 0
+            },
+            "August": {
+                "status": "",
+                "amount_paid": 0
+            },
+            "September": {
+                "status": "",
+                "amount_paid": 0
+            },
+            "October": {
+                "status": "",
+                "amount_paid": 0
+            },
+            "November": {
+                "status": "",
+                "amount_paid": 0
+            },
+            "December": {
+                "status": "",
+                "amount_paid": 0
+            }
+        }
+    }
+]
