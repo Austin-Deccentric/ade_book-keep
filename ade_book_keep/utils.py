@@ -25,6 +25,7 @@ def add_member(member: Member, filepath: str = "members.txt") -> None:
 
 
 def find_member(id: str) -> Member | None:
+    """Find and return a member by ID, or return ``None`` if not found."""
     for member in members:
         if member.get("id") == id:
             return member

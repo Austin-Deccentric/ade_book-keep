@@ -1,4 +1,4 @@
-from ade_book_keep.utils import get_months_up_to, create_id
+from ade_book_keep.utils import find_member, get_months_up_to, create_id
 from ade_book_keep.mtypes import Member, UnpaidMember, PaidMember
 
 
@@ -40,12 +40,31 @@ def view_up_to_date(members: list[Member], end_month: str) -> list[PaidMember]:
 
     return paid_members
 
-def view_member_payment_history(last_name: str, house_num: str, members: list[Member]) -> str:
-    id  = create_id(last_name, house_num)
-    for member in members:
-        if member['member_id'id'] == id:
-            return f'''
-            Name: {member['first_name']} {member['last_name']}
-            House Number: {member['house_num']}
-            '''
-    return ''
+def view_member_payment_history(last_name: str, house_num: str, end_month: str = "December") -> str:
+    """Return formatted payment history for a member through ``end_month``."""
+    member_id = create_id(last_name, house_num)
+    member = find_member(member_id)
+
+    if not member:
+        raise ValueError("Member not found")
+
+    months_up_to = get_months_up_to(end_month)
+    payment_history = []
+
+    for month in months_up_to:
+        payment = member["payment_status"][month]
+
+        if payment["status"] == "Paid":
+            payment_history.append(
+                f"{month}: Paid on {payment['date_of_payment']} " + f"(Amount: {payment['amount_paid']})"
+            )
+        else:
+            payment_history.append(f"{month}: Unpaid")
+
+    return f"""
+Name: {member['first_name']} {member['last_name']}
+House Number: {member['house_num']}
+
+Payment History:
+{'\n'.join(payment_history)}
+"""
