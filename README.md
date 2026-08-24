@@ -153,10 +153,6 @@ The project follows standard Python conventions with type hints for better code 
 
 This project is open source and available under the MIT License.
 
-## Author
-
-- **0xtin** (caugust19.ac@gmail.com)
-
 ## Acknowledgments
 
 - Built as part of a learning exercise in Python application development
