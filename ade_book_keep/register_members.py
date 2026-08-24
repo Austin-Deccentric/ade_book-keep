@@ -1,29 +1,24 @@
 import calendar
 from datetime import datetime
 from ade_book_keep.mtypes import Member
-from ade_book_keep.utils import save_members, members, add_member
+from ade_book_keep.utils import save_members, members, add_member, create_id, find_member
 
-
-
-def create_id(last_name:str, house_num:str) -> str:
-    """Build a member ID from the first three letters of a surname and house number."""
-    return last_name[:3] + str(house_num)
 
 def create_member(first_name: str, last_name: str, house_num: str) -> Member:
     """Create, store, and return a new member with unpaid monthly dues."""
-    id = create_id(last_name, house_num)
-    
-    if any(member.get("id") == id for member in members):
+    member_id = create_id(last_name, house_num)
+
+    if find_member(member_id) is not None:
         raise ValueError("Member already exists")
-    
+
     member: Member = {
-        "id": id,
+        "member_id": member_id,
         "first_name": first_name,
         "last_name": last_name,
         "house_num": house_num,
         "date_of_reg": datetime.now().strftime("%Y-%m-%d"),
         "payment_status": {
-            month: {"status": "Unpaid", "amount_paid": 0}
+            month: {"status": "Unpaid", "amount_paid": 0, "date_of_payment": None}
             for month in calendar.month_name if month
         }
     }
@@ -31,19 +26,23 @@ def create_member(first_name: str, last_name: str, house_num: str) -> Member:
     return member
 
 
-def collect_dues(
-    last_name: str, house_num: str,
-    amount: int, month: str
-):
+
+def collect_dues(last_name: str, house_num: str, amount: int, month: str) -> None:
     """Record a dues payment for a member identified by surname and house number."""
-    id = create_id(last_name, house_num)
-    
-    for member in members:
-        if member.get("id") == id:
-            if member["payment_status"][month]["status"] == "Paid":
-                raise ValueError("Dues already paid")
-            member["payment_status"][month] = {"status": "Paid", "amount_paid": amount}
-            break
-        else:
-            raise ValueError("Member not found")
+    member_id = create_id(last_name, house_num)
+    member = find_member(member_id)
+
+    if member is None:
+        raise ValueError("Member not found")
+
+    if member["payment_status"][month]["status"] == "Paid":
+        raise ValueError("Dues already paid")
+
+    member["payment_status"][month] = {
+        "status": "Paid",
+        "amount_paid": amount,
+        "date_of_payment": datetime.now().strftime("%Y-%m-%d"),
+    }
+
     save_members(members)
+
