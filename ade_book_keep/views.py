@@ -6,9 +6,8 @@ def view_unpaid_dues(members: list[Member], end_month: str) -> list[UnpaidMember
     """Return each member's unpaid months from January through ``end_month``."""
     unpaid_members: list[UnpaidMember] = []
     months_up_to = get_months_up_to(end_month)
-    months_unpaid: list[str] = []
-    
     for member in members:
+        months_unpaid: list[str] = []
         for month in months_up_to:
             if member['payment_status'][month]['status'] == 'Unpaid':
                 months_unpaid.append(month)
@@ -42,7 +41,7 @@ def view_up_to_date(members: list[Member], end_month: str) -> list[PaidMember]:
 
 def view_member_payment_history(last_name: str, house_num: str, end_month: str = "December") -> str:
     """Return formatted payment history for a member through ``end_month``."""
-    member_id = create_id(last_name, house_num)
+    member_id = create_id(last_name.lower(), house_num.lower())
     member = find_member(member_id)
 
     if not member:
