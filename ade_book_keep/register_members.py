@@ -6,6 +6,8 @@ from ade_book_keep.utils import save_members, members, add_member, create_id, fi
 
 def create_member(first_name: str, last_name: str, house_num: str) -> Member:
     """Create, store, and return a new member with unpaid monthly dues."""
+    last_name = last_name.lower()
+    house_num = house_num.lower()
     member_id = create_id(last_name, house_num)
 
     if find_member(member_id) is not None:
@@ -13,7 +15,7 @@ def create_member(first_name: str, last_name: str, house_num: str) -> Member:
 
     member: Member = {
         "member_id": member_id,
-        "first_name": first_name,
+        "first_name": first_name.lower(),
         "last_name": last_name,
         "house_num": house_num,
         "date_of_reg": datetime.now().strftime("%Y-%m-%d"),
@@ -29,7 +31,7 @@ def create_member(first_name: str, last_name: str, house_num: str) -> Member:
 
 def collect_dues(last_name: str, house_num: str, amount: int, month: str) -> None:
     """Record a dues payment for a member identified by surname and house number."""
-    member_id = create_id(last_name, house_num)
+    member_id = create_id(last_name.lower(), house_num.lower())
     member = find_member(member_id)
 
     if member is None:
