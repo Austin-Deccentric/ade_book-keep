@@ -1,4 +1,6 @@
 import json
+import os
+import shutil
 from datetime import datetime
 from json.decoder import JSONDecodeError
 from ade_book_keep.mtypes import Member
@@ -67,4 +69,14 @@ def get_months_up_to(end_month: str) -> list[str]:
         raise ValueError(f"'{end_month}' is not a valid month name.")
         
     return all_months[:all_months.index(end_month) + 1]
+
+
+def backup_members(filepath: str = "members.txt", backup_dir: str = "backups") -> str:
+    """Copy the members data file into a backups folder with a timestamped name."""
+    os.makedirs(backup_dir, exist_ok=True)
+
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    backup_path = os.path.join(backup_dir, f"members_backup_{timestamp}.txt")
+    shutil.copy2(filepath, backup_path)
+    return backup_path
 

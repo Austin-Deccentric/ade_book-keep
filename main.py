@@ -1,7 +1,7 @@
 import json
 
 from ade_book_keep.register_members import collect_dues, create_member
-from ade_book_keep.utils import members, log_activity
+from ade_book_keep.utils import members, log_activity, backup_members
 from ade_book_keep.views import (
     view_member_payment_history,
     view_unpaid_dues,
@@ -20,7 +20,8 @@ def main() -> None:
             "3. View unpaid dues\n"
             "4. View up-to-date members\n"
             "5. View member payment history\n"
-            "6. Exit"
+            "6. Backup member records\n"
+            "7. Exit"
         )
         action = input("Choose an option: ").strip()
 
@@ -68,12 +69,18 @@ def main() -> None:
                     f"(House {house_num}) through {end_month}"
                 )
                 
-            elif action == "6" or action.lower() == "exit":
+            elif action == "6":
+                backup_path = backup_members()
+                print(f"Backup saved to {backup_path}")
+                log_activity(f"Backed up member records to {backup_path}")
+            
+            elif action == "7" or action.lower() == "exit":
                 log_activity("Application closed by user")
                 print("Goodbye!")
                 return
             else:
-                print("Invalid option. Please choose 1-6.")
+                log_activity(f"Invalid menu option selected: {action}")
+                print("Invalid option. Please choose 1-7.")
     
         except json.JSONDecodeError as error:
             log_activity(f"Data file corrupted during menu action {action}: {error}")
