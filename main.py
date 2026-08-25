@@ -1,5 +1,7 @@
+import json
+
 from ade_book_keep.register_members import collect_dues, create_member
-from ade_book_keep.utils import members
+from ade_book_keep.utils import members, log_activity
 from ade_book_keep.views import (
     view_member_payment_history,
     view_unpaid_dues,
@@ -28,7 +30,12 @@ def main() -> None:
                 last_name = input("Enter last name: ").strip()
                 house_num = input("Enter house number: ").strip()
                 member = create_member(first_name, last_name, house_num)
-                print(f"Registered {member['first_name']} {member['last_name']}.")
+                print(f"Registered {member['first_name'].title()} {member['last_name'].title()}.")
+                log_activity(
+                        f"Registered member: {member['first_name'].title()} "
+                        f"{member['last_name'].title()} (House {member['house_num']})"
+                    )
+                
             elif action == "2":
                 last_name = input("Enter last name: ").strip()
                 house_num = input("Enter house number: ").strip()
@@ -36,24 +43,53 @@ def main() -> None:
                 month = input("Enter month: ").strip()
                 collect_dues(last_name, house_num, amount, month)
                 print("Dues recorded.")
+                log_activity(
+                    f"Recorded payment: {last_name.title()} (House {house_num}), "
+                    f"{month}, amount {amount}"
+                )
+                
             elif action == "3":
                 end_month = input("View unpaid dues through which month? ").strip()
                 print(view_unpaid_dues(members, end_month))
+                log_activity(f"Viewed unpaid-dues report through {end_month}")
+                
             elif action == "4":
                 end_month = input("View paid-up members through which month? ").strip()
                 print(view_up_to_date(members, end_month))
+                log_activity(f"Viewed paid-up-members report through {end_month}")
+                
             elif action == "5":
                 last_name = input("Enter last name: ").strip()
                 house_num = input("Enter house number: ").strip()
                 end_month = input("View history through which month? ").strip()
                 print(view_member_payment_history(last_name, house_num, end_month))
+                log_activity(
+                    f"Viewed payment history: {last_name.title()} "
+                    f"(House {house_num}) through {end_month}"
+                )
+                
             elif action == "6" or action.lower() == "exit":
+                log_activity("Application closed by user")
                 print("Goodbye!")
                 return
             else:
                 print("Invalid option. Please choose 1-6.")
+    
+        except json.JSONDecodeError as error:
+            log_activity(f"Data file corrupted during menu action {action}: {error}")
+            print(f"Error: members.txt appears corrupted ({error.msg}).")
         except (ValueError, KeyError) as error:
+            log_activity(f"Error during menu action {action}: {error}")
             print(f"Error: {error}")
+        except FileNotFoundError as error:
+            log_activity(f"Missing file during menu action {action}: {error}")
+            print(f"Error: required file not found ({error.filename}).")
+        except OSError as error:
+            log_activity(f"File I/O error during menu action {action}: {error}")
+            print(f"Error: could not read/write a file ({error}).")
+        except Exception as error:
+            log_activity(f"Unexpected error during menu action {action}: {error!r}")
+            print(f"Unexpected error: {error}")
 
 
 if __name__ == "__main__":
