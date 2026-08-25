@@ -1,0 +1,10 @@
+[2026-08-25 07:53:13] Viewed unpaid-dues report through March
+[2026-08-25 07:53:13] Error during menu action 5: Member not found
+[2026-08-25 07:53:13] Application closed by user
+[2026-08-25 07:57:46] Registered member: Test User (House z99)
+[2026-08-25 07:57:46] Recorded payment: User (House z99), January, amount 7500
+[2026-08-25 07:57:46] Error during menu action 2: Dues already paid
+[2026-08-25 07:57:46] Viewed payment history: User (House z99) through March
+[2026-08-25 07:57:46] Application closed by user
+[2026-08-25 08:00:23] Backed up member records to backups/members_backup_20260825_080023.txt
+[2026-08-25 08:00:23] Application closed by user
