@@ -79,7 +79,6 @@ def main() -> None:
                 print("Goodbye!")
                 return
             else:
-                log_activity(f"Invalid menu option selected: {action}")
                 print("Invalid option. Please choose 1-7.")
     
         except json.JSONDecodeError as error:
