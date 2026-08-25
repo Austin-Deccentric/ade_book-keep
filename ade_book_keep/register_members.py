@@ -36,6 +36,7 @@ def collect_dues(last_name: str, house_num: str, amount: int, month: str) -> Non
     """Record a dues payment for a member identified by surname and house number."""
     member_id = create_id(last_name.lower(), house_num.lower())
     member = find_member(member_id)
+    month = month.lower().title()
 
     if member is None:
         raise ValueError("Member not found")
