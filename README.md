@@ -10,6 +10,8 @@ This project is a Python-based estate management system that allows you to:
 - View unpaid dues for members
 - See which members are up-to-date with payments
 - Check individual member payment history
+- Backup member list data
+- Log application activities
 
 Data is stored in a JSON file (`members.txt`) for persistence between sessions.
 
@@ -67,7 +69,8 @@ python main.py
 3. **View unpaid dues** - See which members have unpaid dues through a specified month
 4. **View up-to-date members** - See members who are current on payments through a specified month
 5. **View member payment history** - Detailed payment history for a specific member
-6. **Exit** - Quit the application
+6. **Create a dated backup** - Create a dated copy of the current member list
+7. **Exit** - Quit the application
 
 ### Example Workflow
 
@@ -145,15 +148,6 @@ Currently, the project doesn't have a formal test suite. You can manually test b
 2. Using the demo data generator
 3. Verifying the functionality through the CLI
 
-### Code Style
-
-The project follows standard Python conventions with type hints for better code clarity and maintainability.
-
 ## License
 
 This project is open source and available under the MIT License.
-
-## Acknowledgments
-
-- Built as part of a learning exercise in Python application development
-- Uses Python's standard library for JSON handling and datetime operations
