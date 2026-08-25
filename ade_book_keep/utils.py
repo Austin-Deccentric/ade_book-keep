@@ -75,10 +75,21 @@ def backup_members(filepath: str = "members.txt", backup_dir: str = "backups") -
     """Copy the members data file into a backups folder with a timestamped name."""
     source = Path(filepath)
     destination_dir = Path(backup_dir)
-    destination_dir.mkdir(parents=True, exist_ok=True)
+    
+    try:
+        destination_dir.mkdir(parents=True, exist_ok=True)
 
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    backup_path = destination_dir / f"members_backup_{timestamp}.txt"
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        backup_path = destination_dir / f"members_backup_{timestamp}.txt"
 
-    _ = shutil.copy2(source, backup_path)
-    return str(backup_path)
+        _ = shutil.copy2(source, backup_path)
+        return str(backup_path)
+
+    except FileNotFoundError as error:
+        raise RuntimeError(f"Members file not found: {source}") from error
+    except PermissionError as error:
+        raise RuntimeError(
+            f"Permission denied while creating backup in: {destination_dir}"
+        ) from error
+    except OSError as error:
+        raise RuntimeError(f"Backup failed: {error}") from error
