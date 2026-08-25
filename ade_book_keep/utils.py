@@ -1,5 +1,20 @@
 import json
+from datetime import datetime
+from json.decoder import JSONDecodeError
 from ade_book_keep.mtypes import Member
+
+
+def get_date() -> str:
+    """Return the current date formatted as YYYY-MM-DD."""
+    return datetime.now().strftime("%Y-%m-%d")
+
+
+def log_activity(activity: str, filepath: str = "log.txt") -> None:
+    """Append a timestamped activity record to the application log file."""
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    with open(filepath, "a", encoding="utf-8") as file:
+        file.write(f"[{timestamp}] {activity}\n")
 
 
 def save_members(members: list[Member], filepath: str = "members.txt") -> None:
@@ -13,6 +28,9 @@ def load_members(filepath: str = "members.txt") -> list[Member]:
         with open(filepath, "r") as f:
             return json.load(f)
     except FileNotFoundError:
+        return []
+    except JSONDecodeError as e:
+        print('The file is corrupted:', e.msg)
         return []
 
 members = load_members()
@@ -49,3 +67,4 @@ def get_months_up_to(end_month: str) -> list[str]:
         raise ValueError(f"'{end_month}' is not a valid month name.")
         
     return all_months[:all_months.index(end_month) + 1]
+

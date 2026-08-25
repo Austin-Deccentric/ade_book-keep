@@ -1,7 +1,10 @@
 import calendar
-from datetime import datetime
 from ade_book_keep.mtypes import Member
-from ade_book_keep.utils import save_members, members, add_member, create_id, find_member
+from ade_book_keep.utils import (
+    get_date, save_members, 
+    members, add_member, 
+    create_id, find_member
+)
 
 
 def create_member(first_name: str, last_name: str, house_num: str) -> Member:
@@ -18,7 +21,7 @@ def create_member(first_name: str, last_name: str, house_num: str) -> Member:
         "first_name": first_name.lower(),
         "last_name": last_name,
         "house_num": house_num,
-        "date_of_reg": datetime.now().strftime("%Y-%m-%d"),
+        "date_of_reg": get_date(),
         "payment_status": {
             month: {"status": "Unpaid", "amount_paid": 0, "date_of_payment": None}
             for month in calendar.month_name if month
@@ -43,7 +46,7 @@ def collect_dues(last_name: str, house_num: str, amount: int, month: str) -> Non
     member["payment_status"][month] = {
         "status": "Paid",
         "amount_paid": amount,
-        "date_of_payment": datetime.now().strftime("%Y-%m-%d"),
+        "date_of_payment": get_date(),
     }
 
     save_members(members)
