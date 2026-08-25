@@ -39,10 +39,13 @@ def view_up_to_date(members: list[Member], end_month: str) -> list[PaidMember]:
 
     return paid_members
 
-def view_member_payment_history(last_name: str, house_num: str, end_month: str = "December") -> str:
+def view_member_payment_history(
+    members: list[Member], last_name: str, 
+    house_num: str, end_month: str = "December"
+) -> str:
     """Return formatted payment history for a member through ``end_month``."""
     member_id = create_id(last_name.lower(), house_num.lower())
-    member = find_member(member_id)
+    member = find_member(members, member_id)
 
     if not member:
         raise ValueError("Member not found")

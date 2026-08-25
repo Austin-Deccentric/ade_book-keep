@@ -1,19 +1,20 @@
 import calendar
 from ade_book_keep.mtypes import Member
 from ade_book_keep.utils import (
-    get_date, save_members, 
-    members, add_member, 
+    get_date, save_members, add_member, 
     create_id, find_member
 )
 
 
-def create_member(first_name: str, last_name: str, house_num: str) -> Member:
+def create_member(
+    members: list[Member], first_name: str, last_name: str, house_num: str
+) -> Member:
     """Create, store, and return a new member with unpaid monthly dues."""
     last_name = last_name.lower()
     house_num = house_num.lower()
     member_id = create_id(last_name, house_num)
 
-    if find_member(member_id) is not None:
+    if find_member(members, member_id) is not None:
         raise ValueError("Member already exists")
 
     member: Member = {
@@ -27,15 +28,17 @@ def create_member(first_name: str, last_name: str, house_num: str) -> Member:
             for month in calendar.month_name if month
         }
     }
-    add_member(member)
+    add_member(members, member)
     return member
 
 
 
-def collect_dues(last_name: str, house_num: str, amount: int, month: str) -> None:
+def collect_dues(
+    members: list[Member], last_name: str, house_num: str, amount: int, month: str
+) -> None:
     """Record a dues payment for a member identified by surname and house number."""
     member_id = create_id(last_name.lower(), house_num.lower())
-    member = find_member(member_id)
+    member = find_member(members, member_id)
     month = month.lower().title()
 
     if member is None:

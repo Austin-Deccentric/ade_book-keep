@@ -343,5 +343,74 @@
                 "date_of_payment": null
             }
         }
+    },
+    {
+        "member_id": "seyhouse-14b",
+        "first_name": "oluwa",
+        "last_name": "seyi",
+        "house_num": "house-14b",
+        "date_of_reg": "2026-08-25",
+        "payment_status": {
+            "January": {
+                "status": "Paid",
+                "amount_paid": 1000,
+                "date_of_payment": "2026-08-25"
+            },
+            "February": {
+                "status": "Unpaid",
+                "amount_paid": 0,
+                "date_of_payment": null
+            },
+            "March": {
+                "status": "Unpaid",
+                "amount_paid": 0,
+                "date_of_payment": null
+            },
+            "April": {
+                "status": "Unpaid",
+                "amount_paid": 0,
+                "date_of_payment": null
+            },
+            "May": {
+                "status": "Unpaid",
+                "amount_paid": 0,
+                "date_of_payment": null
+            },
+            "June": {
+                "status": "Unpaid",
+                "amount_paid": 0,
+                "date_of_payment": null
+            },
+            "July": {
+                "status": "Unpaid",
+                "amount_paid": 0,
+                "date_of_payment": null
+            },
+            "August": {
+                "status": "Unpaid",
+                "amount_paid": 0,
+                "date_of_payment": null
+            },
+            "September": {
+                "status": "Unpaid",
+                "amount_paid": 0,
+                "date_of_payment": null
+            },
+            "October": {
+                "status": "Unpaid",
+                "amount_paid": 0,
+                "date_of_payment": null
+            },
+            "November": {
+                "status": "Unpaid",
+                "amount_paid": 0,
+                "date_of_payment": null
+            },
+            "December": {
+                "status": "Unpaid",
+                "amount_paid": 0,
+                "date_of_payment": null
+            }
+        }
     }
 ]

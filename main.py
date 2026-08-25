@@ -1,7 +1,7 @@
 import json
 
 from ade_book_keep.register_members import collect_dues, create_member
-from ade_book_keep.utils import members, log_activity, backup_members
+from ade_book_keep.utils import load_members, log_activity, backup_members
 from ade_book_keep.views import (
     view_member_payment_history,
     view_unpaid_dues,
@@ -12,6 +12,7 @@ from ade_book_keep.views import (
 def main() -> None:
     """Run the interactive estate records application."""
     print("Welcome to Ade's Estate Records!")
+    members = load_members()
 
     while True:
         print(
@@ -30,7 +31,7 @@ def main() -> None:
                 first_name = input("Enter first name: ").strip()
                 last_name = input("Enter last name: ").strip()
                 house_num = input("Enter house number: ").strip()
-                member = create_member(first_name, last_name, house_num)
+                member = create_member(members, first_name, last_name, house_num)
                 print(f"Registered {member['first_name'].title()} {member['last_name'].title()}.")
                 log_activity(
                         f"Registered member: {member['first_name'].title()} "
@@ -42,7 +43,7 @@ def main() -> None:
                 house_num = input("Enter house number: ").strip()
                 amount = int(input("Enter amount paid: ").strip())
                 month = input("Enter month (eg: January): ").strip()
-                collect_dues(last_name, house_num, amount, month)
+                collect_dues(members, last_name, house_num, amount, month)
                 print("Dues recorded.")
                 log_activity(
                     f"Recorded payment: {last_name.title()} (House {house_num}), "
@@ -67,7 +68,7 @@ def main() -> None:
                 last_name = input("Enter last name: ").strip()
                 house_num = input("Enter house number: ").strip()
                 end_month = input("View history through which month? ").strip()
-                print(view_member_payment_history(last_name, house_num, end_month))
+                print(view_member_payment_history(members, last_name, house_num, end_month))
                 log_activity(
                     f"Viewed payment history: {last_name.title()} "
                     f"(House {house_num}) through {end_month}"
