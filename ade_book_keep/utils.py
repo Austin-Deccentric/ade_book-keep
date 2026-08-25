@@ -1,5 +1,5 @@
 import json
-import os
+from pathlib import Path
 import shutil
 from datetime import datetime
 from json.decoder import JSONDecodeError
@@ -16,7 +16,7 @@ def log_activity(activity: str, filepath: str = "log.txt") -> None:
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     with open(filepath, "a", encoding="utf-8") as file:
-        file.write(f"[{timestamp}] {activity}\n")
+        _ = file.write(f"[{timestamp}] {activity}\n")
 
 
 def save_members(members: list[Member], filepath: str = "members.txt") -> None:
@@ -73,10 +73,12 @@ def get_months_up_to(end_month: str) -> list[str]:
 
 def backup_members(filepath: str = "members.txt", backup_dir: str = "backups") -> str:
     """Copy the members data file into a backups folder with a timestamped name."""
-    os.makedirs(backup_dir, exist_ok=True)
+    source = Path(filepath)
+    destination_dir = Path(backup_dir)
+    destination_dir.mkdir(parents=True, exist_ok=True)
 
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    backup_path = os.path.join(backup_dir, f"members_backup_{timestamp}.txt")
-    shutil.copy2(filepath, backup_path)
-    return backup_path
+    backup_path = destination_dir / f"members_backup_{timestamp}.txt"
 
+    _ = shutil.copy2(source, backup_path)
+    return str(backup_path)

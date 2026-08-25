@@ -41,7 +41,7 @@ def main() -> None:
                 last_name = input("Enter last name: ").strip()
                 house_num = input("Enter house number: ").strip()
                 amount = int(input("Enter amount paid: ").strip())
-                month = input("Enter month: ").strip()
+                month = input("Enter month (eg: January): ").strip()
                 collect_dues(last_name, house_num, amount, month)
                 print("Dues recorded.")
                 log_activity(
@@ -51,12 +51,16 @@ def main() -> None:
                 
             elif action == "3":
                 end_month = input("View unpaid dues through which month? ").strip()
-                print(view_unpaid_dues(members, end_month))
+                unpaid_members = view_unpaid_dues(members, end_month)
+                for _member in unpaid_members:
+                    print(f'{_member["name"].title()} - {", ".join(_member["months"])}')
                 log_activity(f"Viewed unpaid-dues report through {end_month}")
                 
             elif action == "4":
                 end_month = input("View paid-up members through which month? ").strip()
-                print(view_up_to_date(members, end_month))
+                up_to_date_members = view_up_to_date(members, end_month)
+                for _member in up_to_date_members:
+                    print(f'{_member["name"].title()} - {_member["house_num"]}')
                 log_activity(f"Viewed paid-up-members report through {end_month}")
                 
             elif action == "5":

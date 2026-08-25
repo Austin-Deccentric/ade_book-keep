@@ -33,7 +33,7 @@ def view_up_to_date(members: list[Member], end_month: str) -> list[PaidMember]:
 
         if has_paid_all_months:
             paid_members.append({
-                "name": f"{member['first_name']} {member['last_name']}",
+                "name": f"{member['first_name'].title()} {member['last_name'].title()}",
                 "house_num": member["house_num"],
             })
 
@@ -48,7 +48,7 @@ def view_member_payment_history(last_name: str, house_num: str, end_month: str =
         raise ValueError("Member not found")
 
     months_up_to = get_months_up_to(end_month)
-    payment_history = []
+    payment_history: list[str] = []
 
     for month in months_up_to:
         payment = member["payment_status"][month]
@@ -61,7 +61,7 @@ def view_member_payment_history(last_name: str, house_num: str, end_month: str =
             payment_history.append(f"{month}: Unpaid")
 
     return f"""
-Name: {member['first_name']} {member['last_name']}
+Name: {member['first_name'].title()} {member['last_name'].title()}
 House Number: {member['house_num']}
 
 Payment History:
