@@ -97,6 +97,9 @@ def main() -> None:
         except OSError as error:
             log_activity(f"File I/O error during menu action {action}: {error}")
             print(f"Error: could not read/write a file ({error}).")
+        except RuntimeError as error:
+            log_activity(f"Runtime error during menu action {action}: {error}")
+            print(f"Error: could not create backup ({error}).")
         except Exception as error:
             log_activity(f"Unexpected error during menu action {action}: {error!r}")
             print(f"Unexpected error: {error}")
